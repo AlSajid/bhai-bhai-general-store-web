@@ -11,17 +11,44 @@ const showProducts = (products) => {
   for (const product of allProducts) {
     const image = product.image;
     const div = document.createElement("div");
-    div.classList.add("product");
-    div.innerHTML = `<div class="single-product">
-      <div>
-    <img class="product-image" src=${image}></img>
+    div.classList.add("product", "bg-light", "m-3");
+    div.innerHTML = `
+    <div class="single-product">
+      <div >
+        <img class="product-image" src=${image}></img>
       </div>
       <h3>${product.title}</h3>
       <p>Category: ${product.category}</p>
-      <p class="text-muted">Rating: <span><b>${product.rating.rate}</b></span> (${product.rating.count})</p>
+      <p class="text-muted">
+        Rating: <span><b>${product.rating.rate}</b></span> (${product.rating.count})
+      </p>
       <h2>Price: $ ${product.price}</h2>
-      <button onclick="addToCart(${product.id},${product.price})" id="addToCart-btn" class="buy-now btn btn-success">add to cart</button>
-      <button id="details-btn" class="btn btn-danger">Details</button></div>
+      <button onclick="addToCart(${product.id},${product.price})" id="addToCart-btn" class="buy-now btn btn-dark">add to cart</button>
+      <button id="details-btn" class="btn btn-secondary m-1" data-bs-toggle="modal" data-bs-target="#p${product.id}">Details</button>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="p${product.id}" tabindex="-1"  aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" >${product.title}</h5>
+          </div>
+          <div class="modal-body text-start">
+            <p><b>Product ID: </b>${product.id}</p>
+            <p><b>Price: </b>${product.price}</p>
+            <p><b>Description: </b>${product.description}</p>
+            <p><b>Category: </b>${product.category}</p>
+            <p><b>Average Rating: </b>${product.rating.rate}</p>
+            <p><b>Total Rating Count: </b>${product.rating.count}</p>
+            <img class="product-image" src=${image}></img>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
       `;
     document.getElementById("all-products").appendChild(div);
   }
